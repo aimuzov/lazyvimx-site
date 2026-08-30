@@ -40,7 +40,15 @@
 	--hero-rgb: 24, 25, 38;
 }
 
-/* В доках каждая гифка лежит парой; лишнюю прячет класс темы. */
+/* В доках каждая гифка лежит парой; лишнюю прячет класс темы.
+   Рамка и тень отделяют запись от фона страницы. */
+.gif-dark,
+.gif-light {
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 10px;
+	box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+}
+
 .gif-light,
 .dark .gif-dark {
 	display: block;
