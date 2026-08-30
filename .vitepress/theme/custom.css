@@ -59,6 +59,38 @@
 	display: none;
 }
 
+/* Переключатель «После | До» над гифкой (см. DemoTabs.vue). */
+.demo-tabs-bar {
+	display: inline-flex;
+	gap: 4px;
+	margin-top: 16px;
+	padding: 3px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 8px;
+	background: var(--vp-c-bg-soft);
+}
+
+.demo-tabs-bar button {
+	padding: 2px 14px;
+	border-radius: 6px;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--vp-c-text-2);
+	transition:
+		color 0.25s,
+		background-color 0.25s;
+}
+
+.demo-tabs-bar button.active {
+	color: var(--vp-c-text-1);
+	background: var(--vp-c-bg);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.demo-tabs p {
+	margin-top: 8px;
+}
+
 /* Слева — сплошной цвет под текстом, вправо он растворяется
    и открывает гифку. */
 .VPHome .VPHero::before {

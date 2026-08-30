@@ -38,6 +38,38 @@ const pages = [
 	["docs/API", "api.md", "ru/api.md"],
 ];
 
+// Экстры, у которых записан «до»-вариант гифки. Список повторяет
+// docs/demo/tapes-before в lazyvimx — при дозаписи пополнять оба места.
+const withBefore = new Set([
+	"buf-tab-scope",
+	"coding-comments",
+	"git-conflicts",
+	"motions-better-cursor-move",
+	"motions-better-move-between-words",
+	"motions-langmapper",
+	"motions-sibling-move",
+	"motions-sibling-swap",
+	"motions-splitting-joining-blocks",
+	"ui-better-colorcolumn",
+	"ui-better-cursorline",
+	"ui-better-diagnostic",
+	"ui-better-float",
+	"ui-better-insert-mode",
+	"ui-better-linenumbers",
+	"ui-better-live-rename",
+	"ui-better-reference-highlight",
+	"ui-better-whitespace",
+	"ui-bolder-separators",
+	"ui-diff-view",
+	"ui-highlighted-ansi-escape",
+	"ui-highlighted-colors",
+	"ui-peek-preview",
+	"ui-scrollbar",
+	"ui-simple-mode",
+	"ui-symbol-usage",
+	"ui-winbar",
+]);
+
 const nameMap = {
 	EXTRAS: "extras",
 	CONFIGURATION: "configuration",
@@ -80,10 +112,16 @@ function transform(text) {
 	text = text.replace(/\]\(#\p{Extended_Pictographic}️?-/gu, "](#");
 
 	// Каждая демо-гифка существует в двух палитрах; какая видна —
-	// решает CSS по классу темы (см. custom.css).
+	// решает CSS по классу темы (см. custom.css). Гифки, записанные ещё
+	// и без своей экстры, получают табы «После | До» (DemoTabs.vue).
 	text = text.replace(
-		/!\[([^\]]*)\]\((https:\/\/raw\.githubusercontent\.com\/aimuzov\/lazyvimx\/assets\/demo\/[a-z0-9-]+)\.gif\)/g,
-		'<p><img class="gif-dark" loading="lazy" src="$2.gif" alt="$1"><img class="gif-light" loading="lazy" src="$2-light.gif" alt="$1"></p>',
+		/!\[([^\]]*)\]\(https:\/\/raw\.githubusercontent\.com\/aimuzov\/lazyvimx\/assets\/demo\/([a-z0-9-]+)\.gif\)/g,
+		(_, alt, name) => {
+			if (withBefore.has(name)) return `<DemoTabs name="${name}" alt="${alt}" />`;
+
+			const base = `https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/${name}`;
+			return `<p><img class="gif-dark" loading="lazy" src="${base}.gif" alt="${alt}"><img class="gif-light" loading="lazy" src="${base}-light.gif" alt="${alt}"></p>`;
+		},
 	);
 
 	// Всё, что живёт только в репозитории, — на GitHub.
