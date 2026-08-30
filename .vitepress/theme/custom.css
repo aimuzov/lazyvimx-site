@@ -20,12 +20,15 @@
 
 /* Штатный навбар прозрачен и пускает hero-гифку под текст меню;
    сплошной фон темы читается лучше. Со включённым сайдбаром фон
-   рисует он сам — заливка навбара дала бы линию стыка над ним. */
+   рисует он сам — заливка навбара дала бы линию стыка над ним.
+   Наверху главной навбар снова прозрачен: гифка доходит до края,
+   а читаемость меню держит затемнение hero (см. ::after ниже). */
 .VPNavBar {
 	background-color: var(--vp-nav-bg-color) !important;
 }
 
-.VPNavBar.has-sidebar {
+.VPNavBar.has-sidebar,
+.VPNavBar.home.top {
 	background-color: transparent !important;
 }
 
@@ -40,6 +43,9 @@
 }
 
 :root {
+	--vp-font-family-base: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+	--vp-font-family-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
 	--hero-bg: #dce0e8;
 	--hero-gif: url("https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/ui-better-diagnostic-light.gif");
 	--hero-rgb: 220, 224, 232;
@@ -117,6 +123,15 @@
 		rgba(var(--hero-rgb), 0.88) 680px,
 		rgb(var(--hero-rgb)) 920px
 	);
+}
+
+/* Под прозрачным навбаром гифку прижимает лёгкое затемнение —
+   иначе пункты меню тонут в коде записи. */
+.VPHome .VPHero::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to bottom, rgba(var(--hero-rgb), 0.8) 0px, transparent 140px);
 }
 
 .VPHome .VPHero > * {

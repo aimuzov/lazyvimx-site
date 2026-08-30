@@ -51,6 +51,19 @@ export default defineConfig({
 	title: "lazyvimx",
 	description: "An enhancement layer on top of LazyVim: 50 optional extras and 39 plugin overrides",
 	cleanUrls: true,
+
+	// Весь сайт набран JetBrains Mono — как код в самом Neovim.
+	head: [
+		["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
+		["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
+		[
+			"link",
+			{
+				rel: "stylesheet",
+				href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400..800;1,400..800&display=swap",
+			},
+		],
+	],
 	lastUpdated: true,
 	sitemap: { hostname: "https://lazyvimx.aimuzov.online" },
 	// README описывает сам репозиторий сайта — это не страница.
