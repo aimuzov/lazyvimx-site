@@ -172,7 +172,7 @@
 	   заливка статуслайна там слишком плотная для целой панели. */
 	--vim-panel-base: #e6e9ef;
 	--vp-sidebar-bg-color: color-mix(in srgb, var(--vim-panel-base) 99%, #fff);
-	--vim-cursorline: color-mix(in srgb, var(--vim-panel-base) 88%, #000);
+	--vim-cursorline: color-mix(in srgb, var(--vp-sidebar-bg-color) 95%, #000);
 
 	--vim-bar-bg: #ccd0da;
 	--vim-bar-fg: #4c4f69;
@@ -187,7 +187,7 @@
 
 .dark {
 	--vim-panel-base: #1e2030;
-	--vim-cursorline: color-mix(in srgb, var(--vim-panel-base) 88%, #fff);
+	--vim-cursorline: color-mix(in srgb, var(--vp-sidebar-bg-color) 95%, #fff);
 
 	--vim-bar-bg: #1e2030;
 	--vim-bar-fg: #a5adcb;
@@ -314,6 +314,12 @@
 
 /* Сайдбар как дерево neo-tree: шапка с корнем проекта, группы —
    раскрытые папки, пункты — файлы на направляющей линии. */
+/* Первая папка стоит вплотную к верху панели — даём ей тот же
+   воздух, что и следующим. */
+.VPSidebar .group:first-of-type .VPSidebarItem.level-0 > .item {
+	padding-top: 24px;
+}
+
 /* В дереве папки идут подряд: ни линеек, ни отступов между ними. */
 .VPSidebar .group,
 .VPSidebar .group + .group {

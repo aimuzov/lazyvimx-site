@@ -95,6 +95,7 @@ export default defineConfig({
 	},
 
 	themeConfig: {
+		siteTitle: "~/lazyvimx",
 		externalLinkIcon: true,
 		socialLinks: [{ icon: "github", link: github }],
 		search: { provider: "local" },
