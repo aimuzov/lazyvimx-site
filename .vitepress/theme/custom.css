@@ -18,6 +18,12 @@
 	padding-bottom: 48px;
 }
 
+/* Штатный навбар прозрачен и пускает hero-гифку под текст меню;
+   сплошной фон темы читается лучше. */
+.VPNavBar {
+	background-color: var(--vp-nav-bg-color) !important;
+}
+
 .VPHome .VPHero {
 	position: relative;
 	padding-bottom: 96px;
