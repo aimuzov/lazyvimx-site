@@ -1,0 +1,22 @@
+{
+  "name": "lazyvimx-site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:sync": "node scripts/sync-docs.mjs",
+    "docs:dev": "npm run docs:sync && vitepress dev",
+    "docs:build": "npm run docs:sync && vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "private": "true",
+  "devDependencies": {
+    "@catppuccin/vitepress": "0.1.4",
+    "vitepress": "1.6.4"
+  }
+}
