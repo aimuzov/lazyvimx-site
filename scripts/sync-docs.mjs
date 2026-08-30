@@ -71,6 +71,14 @@ function transform(text) {
 	text = text.replaceAll("(../README.ru.md", "(./getting-started.md");
 	text = text.replaceAll("(../README.md", "(./getting-started.md");
 
+	// GitHub кладёт эмодзи заголовка в слаг, VitePress выбрасывает; явный
+	// якорь без эмодзи делает ссылки одинаковыми там и тут.
+	text = text.replace(/^## (\p{Extended_Pictographic}️?) (.+)$/gmu, (_, emo, name) => {
+		const slug = name.toLowerCase().replaceAll(".", "").replace(/\s+/g, "-");
+		return `## ${emo} ${name} {#${slug}}`;
+	});
+	text = text.replace(/\]\(#\p{Extended_Pictographic}️?-/gu, "](#");
+
 	// Каждая демо-гифка существует в двух палитрах; какая видна —
 	// решает CSS по классу темы (см. custom.css).
 	text = text.replace(
