@@ -47,13 +47,13 @@
 	--vp-font-family-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
 	--hero-bg: #dce0e8;
-	--hero-gif: url("https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/ui-better-diagnostic-light.gif");
+	--hero-gif: url("https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/hero-light.gif");
 	--hero-rgb: 220, 224, 232;
 }
 
 .dark {
 	--hero-bg: #181926;
-	--hero-gif: url("https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/ui-better-diagnostic.gif");
+	--hero-gif: url("https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/hero.gif");
 	--hero-rgb: 24, 25, 38;
 }
 
@@ -198,9 +198,7 @@
 	z-index: 60;
 	display: flex;
 	align-items: center;
-	gap: 12px;
 	height: 26px;
-	padding-right: 12px;
 	border-top: 1px solid var(--vp-c-divider);
 	background: var(--vim-bar-bg);
 	color: var(--vim-bar-fg);
@@ -210,27 +208,48 @@
 }
 
 /* Секции разделены косой гранью, как powerline-разделители в lualine:
-   у левых скошен правый край, у правых — левый. */
+   грань идёт из верхнего правого угла в нижний левый, справа —
+   зеркально. Секции заходят друг на друга, чтобы в стыке не
+   проглядывал фон полосы. */
 .vim-statusline .section {
+	position: relative;
 	padding: 0 16px;
 	background: var(--vim-section-bg);
 	color: var(--vim-bar-fg);
 }
 
-.vim-statusline .mode,
-.vim-statusline .branch {
-	margin-right: -12px;
-	clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 0 100%);
+/* Сама секция прямоугольная, скос выносится за её край отдельным
+   треугольником — на стыке не остаётся ни щели, ни нахлёста. */
+.vim-statusline .mode::after,
+.vim-statusline .branch::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: -10px;
+	bottom: 0;
+	width: 10px;
+	background: inherit;
+	clip-path: polygon(0 0, 100% 100%, 0 100%);
 }
 
-.vim-statusline .meta,
-.vim-statusline .percent {
-	margin-left: -12px;
-	clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%);
+.vim-statusline .credit::before,
+.vim-statusline .percent::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: -10px;
+	width: 10px;
+	background: inherit;
+	clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+/* Секции идут встык: место под скос уже заложено в его вынос. */
+.vim-statusline .file {
+	padding: 0 22px;
 }
 
 .vim-statusline .mode {
-	padding-right: 22px;
 	background: var(--vim-mode-normal);
 	color: var(--vim-mode-fg);
 	font-weight: 700;
@@ -242,7 +261,6 @@
 }
 
 .vim-statusline .branch {
-	padding-right: 22px;
 	color: var(--vim-accent);
 }
 
@@ -254,24 +272,18 @@
 	color: var(--vim-dim);
 }
 
-.vim-statusline .credit {
-	color: var(--vim-bar-fg);
-}
-
+/* Ширина фиксирована: иначе секция дёргается на каждом проценте. */
 .vim-statusline .percent {
-	padding-left: 22px;
-	color: var(--vim-accent);
+	width: 74px;
+	background: var(--vim-mode-normal);
+	color: var(--vim-mode-fg);
+	text-align: center;
 }
 
-.vim-statusline .meta {
-	padding-left: 22px;
-	color: var(--vim-dim);
-}
-
-/* Файл и служебные поля первыми уходят на узких экранах. */
+/* Путь к файлу и подпись первыми уходят на узких экранах. */
 @media (max-width: 720px) {
 	.vim-statusline .file,
-	.vim-statusline .meta {
+	.vim-statusline .credit {
 		display: none;
 	}
 }
@@ -294,10 +306,11 @@
 	color: var(--vp-c-text-1);
 }
 
-/* Дерево не разделяют линейками — папки отделяет сам отступ. */
+/* В дереве папки идут подряд: ни линеек, ни отступов между ними. */
+.VPSidebar .group,
 .VPSidebar .group + .group {
 	border-top: 0;
-	padding-top: 12px;
+	padding: 0;
 }
 
 .neo-tree-header .hint {
@@ -390,7 +403,7 @@
 .vp-doc li,
 .vp-doc td,
 .vp-doc th {
-	line-height: 24px;
+	line-height: 28px;
 }
 
 /* Шаг отступов — половина строки: ритм сетки сохраняется, а текст
@@ -402,24 +415,24 @@
 .vp-doc table,
 .vp-doc .custom-block,
 .vp-doc div[class*="language-"] {
-	margin: 12px 0;
+	margin: 14px 0;
 }
 
 .vp-doc h1 {
-	margin: 0 0 12px;
-	line-height: 48px;
+	margin: 0 0 14px;
+	line-height: 42px;
 }
 
 .vp-doc h2 {
-	margin: 36px 0 12px;
-	padding-top: 12px;
-	line-height: 48px;
+	margin: 42px 0 14px;
+	padding-top: 14px;
+	line-height: 42px;
 }
 
 .vp-doc h3,
 .vp-doc h4 {
-	margin: 24px 0 12px;
-	line-height: 24px;
+	margin: 28px 0 14px;
+	line-height: 28px;
 }
 
 .vp-doc li + li,

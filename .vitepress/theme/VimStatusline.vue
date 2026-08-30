@@ -52,8 +52,7 @@ onUnmounted(() => {
 		<span class="section branch">● main</span>
 		<span class="file">{{ file }}</span>
 		<span class="spacer"></span>
-		<span class="credit">{{ credit }}</span>
-		<span class="section meta">utf-8</span>
+		<span class="section credit">{{ credit }}</span>
 		<span class="section percent">{{ percent }}</span>
 	</div>
 </template>

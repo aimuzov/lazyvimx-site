@@ -66,8 +66,6 @@ export default defineConfig({
 	],
 	lastUpdated: true,
 	sitemap: { hostname: "https://lazyvimx.aimuzov.online" },
-	// Код с номерами строк — как в редакторе.
-	markdown: { lineNumbers: true },
 	// README описывает сам репозиторий сайта — это не страница.
 	srcExclude: ["README.md"],
 
