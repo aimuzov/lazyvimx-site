@@ -2,7 +2,7 @@
    ними градиент. Обе палитры — свои гифка и заливка на каждую тему. */
 
 .VPHome .VPFeatures {
-	padding-top: 64px;
+	padding-top: 24px;
 }
 
 /* VPContent растянут флексом до футера, а VPHome внутри короче — и
@@ -155,6 +155,17 @@
 /* Дальше — оформление сайта под интерфейс Neovim: статуслайн внизу,
    вкладки-буферы в навбаре, курсор, тильды и Visual-выделение. */
 
+/* В терминале скруглений не бывает — снимаем их со всего сайта. */
+* {
+	border-radius: 0 !important;
+}
+
+/* Дерево файлов длиннее обычного меню — панели нужна ширина, чтобы
+   имена не переносились. */
+:root {
+	--vp-sidebar-width: 320px;
+}
+
 :root {
 	--vim-bar-bg: #ccd0da;
 	--vim-bar-fg: #4c4f69;
@@ -265,33 +276,45 @@
 }
 
 .VPSidebarItem.level-0 > .item .text::before {
-	content: "▾ 📁 ";
-	color: var(--vim-dim);
+	content: "📁 ";
 	font-weight: 400;
-}
-
-.VPSidebarItem.level-0 > .items {
-	margin-left: 7px;
-	border-left: 1px solid var(--vp-c-divider);
 }
 
 .VPSidebarItem.level-1 > .item {
 	position: relative;
-	padding-left: 14px;
+	padding-left: 24px;
 }
 
-/* Ветвление как рисует neo-tree: последний файл в папке замыкает
-   линию уголком, остальные висят на тройнике. */
+/* Ветвление рисуют бордеры, а не символы: соседние пункты стыкуются
+   в сплошную линию при любой высоте строки. */
 .VPSidebarItem.level-1 > .item::before {
-	content: "├─";
+	content: "";
 	position: absolute;
-	top: 4px;
-	left: 0;
-	color: var(--vp-c-divider);
+	top: 0;
+	bottom: 0;
+	left: 8px;
+	border-left: 1px solid var(--vp-c-divider);
 }
 
+/* Последний файл в папке обрывает линию на своём уровне. */
 .VPSidebarItem.level-1:last-child > .item::before {
-	content: "└─";
+	bottom: 50%;
+}
+
+.VPSidebarItem.level-1 > .item::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 8px;
+	width: 10px;
+	border-top: 1px solid var(--vp-c-divider);
+}
+
+/* Имя файла в одну строку, как в дереве: длинное — с многоточием. */
+.VPSidebarItem.level-1 .link .text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 /* Расширение приглушено — имя файла читается первым. */
@@ -328,6 +351,48 @@
 	50% {
 		opacity: 0;
 	}
+}
+
+/* Текст документации живёт на сетке терминала: строка 24px, все
+   отступы кратны ей — как строки в буфере. */
+.vp-doc p,
+.vp-doc li,
+.vp-doc td,
+.vp-doc th {
+	line-height: 24px;
+}
+
+.vp-doc p,
+.vp-doc ul,
+.vp-doc ol,
+.vp-doc blockquote,
+.vp-doc table,
+.vp-doc .custom-block,
+.vp-doc div[class*="language-"] {
+	margin: 24px 0;
+}
+
+.vp-doc h1 {
+	margin: 0 0 24px;
+	line-height: 48px;
+}
+
+.vp-doc h2 {
+	margin: 48px 0 24px;
+	padding-top: 24px;
+	line-height: 48px;
+}
+
+.vp-doc h3,
+.vp-doc h4 {
+	margin: 48px 0 24px;
+	line-height: 24px;
+}
+
+.vp-doc li + li,
+.vp-doc li > ul,
+.vp-doc li > ol {
+	margin-top: 0;
 }
 
 /* Хвост буфера: тильды на месте несуществующих строк. Лендинг —
