@@ -57,12 +57,14 @@
 	content: "";
 	position: absolute;
 	inset: 0;
+	/* Стопы в пикселях от правого края: прозрачная зона совпадает
+	   с шириной гифки, дальше влево — сплошная заливка. */
 	background: linear-gradient(
-		100deg,
-		rgb(var(--hero-rgb)) 52%,
-		rgba(var(--hero-rgb), 0.85) 68%,
-		rgba(var(--hero-rgb), 0.45) 84%,
-		rgba(var(--hero-rgb), 0.12) 100%
+		to left,
+		rgba(var(--hero-rgb), 0.1) 0px,
+		rgba(var(--hero-rgb), 0.5) 380px,
+		rgba(var(--hero-rgb), 0.88) 680px,
+		rgb(var(--hero-rgb)) 920px
 	);
 }
 
