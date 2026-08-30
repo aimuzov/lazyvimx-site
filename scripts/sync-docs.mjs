@@ -131,6 +131,7 @@ function transform(text) {
 	text = text.replaceAll("(../examples/", `(${github}/tree/main/examples/`);
 	text = text.replaceAll("(examples/", `(${github}/tree/main/examples/`);
 	text = text.replaceAll("(../CONTRIBUTING", `(${github}/blob/main/CONTRIBUTING`);
+	text = text.replaceAll("(CONTRIBUTING", `(${github}/blob/main/CONTRIBUTING`);
 	text = text.replaceAll("(../CHANGELOG.md", `(${github}/blob/main/CHANGELOG.md`);
 	text = text.replaceAll("(CHANGELOG.md", `(${github}/blob/main/CHANGELOG.md`);
 	text = text.replaceAll("(./)", `(${github}/tree/main/docs)`);
