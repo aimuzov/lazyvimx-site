@@ -76,10 +76,6 @@ export default defineConfig({
 			label: "English",
 			lang: "en",
 			themeConfig: {
-				nav: [
-					{ text: "Guide", link: "/getting-started" },
-					{ text: "Extras", link: "/extras" },
-				],
 				sidebar: sidebarEn,
 			},
 		},
@@ -89,10 +85,6 @@ export default defineConfig({
 			link: "/ru/",
 			description: "Слой улучшений поверх LazyVim: 50 опциональных экстр и 39 оверрайдов плагинов",
 			themeConfig: {
-				nav: [
-					{ text: "Руководство", link: "/ru/getting-started" },
-					{ text: "Экстры", link: "/ru/extras" },
-				],
 				sidebar: sidebarRu,
 				outline: { label: "На этой странице" },
 				docFooter: { prev: "Предыдущая", next: "Следующая" },

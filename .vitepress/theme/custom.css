@@ -245,19 +245,6 @@
 	padding-bottom: 34px;
 }
 
-/* Пункты навбара как вкладки буферов: активная подсвечена сверху. */
-.VPNavBarMenuLink {
-	padding: 0 14px !important;
-	border-top: 2px solid transparent;
-	border-right: 1px solid var(--vp-c-divider);
-	line-height: 46px !important;
-}
-
-.VPNavBarMenuLink.active {
-	border-top-color: var(--vim-accent);
-	background: var(--vp-c-bg-soft);
-}
-
 /* Сайдбар как дерево neo-tree: шапка с корнем проекта, группы —
    раскрытые папки, пункты — файлы на направляющей линии. */
 .neo-tree-header {
