@@ -46,14 +46,14 @@ onUnmounted(() => {
 
 <template>
 	<div class="vim-statusline" :class="{ visual }">
-		<span class="mode">{{ mode }}</span>
-		<!-- Глифа ветки из Nerd Font в веб-шрифте нет — пишем словами. -->
-		<span class="branch">git:main</span>
+		<!-- Глифов Nerd Font в веб-шрифте нет: точка вместо иконки режима,
+		     скошенные границы секций рисует clip-path. -->
+		<span class="section mode">● {{ mode }}</span>
+		<span class="section branch">● main</span>
 		<span class="file">{{ file }}</span>
 		<span class="spacer"></span>
 		<span class="credit">{{ credit }}</span>
-		<span class="meta">utf-8</span>
-		<span class="meta">LF</span>
-		<span class="percent">{{ percent }}</span>
+		<span class="section meta">utf-8</span>
+		<span class="section percent">{{ percent }}</span>
 	</div>
 </template>

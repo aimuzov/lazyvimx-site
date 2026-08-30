@@ -175,6 +175,7 @@
 	--vim-accent: #1e66f5;
 	--vim-dim: #8c8fa1;
 	--vim-visual-bg: rgba(114, 135, 253, 0.25);
+	--vim-section-bg: #bcc0cc;
 }
 
 .dark {
@@ -186,6 +187,7 @@
 	--vim-accent: #8aadf4;
 	--vim-dim: #5b6078;
 	--vim-visual-bg: rgba(138, 173, 244, 0.25);
+	--vim-section-bg: #363a4f;
 }
 
 .vim-statusline {
@@ -207,8 +209,28 @@
 	white-space: nowrap;
 }
 
+/* Секции разделены косой гранью, как powerline-разделители в lualine:
+   у левых скошен правый край, у правых — левый. */
+.vim-statusline .section {
+	padding: 0 16px;
+	background: var(--vim-section-bg);
+	color: var(--vim-bar-fg);
+}
+
+.vim-statusline .mode,
+.vim-statusline .branch {
+	margin-right: -12px;
+	clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 0 100%);
+}
+
+.vim-statusline .meta,
+.vim-statusline .percent {
+	margin-left: -12px;
+	clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%);
+}
+
 .vim-statusline .mode {
-	padding: 0 14px;
+	padding-right: 22px;
 	background: var(--vim-mode-normal);
 	color: var(--vim-mode-fg);
 	font-weight: 700;
@@ -220,6 +242,7 @@
 }
 
 .vim-statusline .branch {
+	padding-right: 22px;
 	color: var(--vim-accent);
 }
 
@@ -227,7 +250,6 @@
 	flex: 1;
 }
 
-.vim-statusline .meta,
 .vim-statusline .file {
 	color: var(--vim-dim);
 }
@@ -237,9 +259,13 @@
 }
 
 .vim-statusline .percent {
-	min-width: 42px;
-	text-align: right;
+	padding-left: 22px;
 	color: var(--vim-accent);
+}
+
+.vim-statusline .meta {
+	padding-left: 22px;
+	color: var(--vim-dim);
 }
 
 /* Файл и служебные поля первыми уходят на узких экранах. */
@@ -263,10 +289,15 @@
 	align-items: baseline;
 	gap: 6px;
 	padding: 10px 0 12px;
-	border-bottom: 1px solid var(--vp-c-divider);
 	font-size: 13px;
 	font-weight: 600;
 	color: var(--vp-c-text-1);
+}
+
+/* Дерево не разделяют линейками — папки отделяет сам отступ. */
+.VPSidebar .group + .group {
+	border-top: 0;
+	padding-top: 12px;
 }
 
 .neo-tree-header .hint {
@@ -362,6 +393,8 @@
 	line-height: 24px;
 }
 
+/* Шаг отступов — половина строки: ритм сетки сохраняется, а текст
+   не разъезжается на целый пустой ряд между абзацами. */
 .vp-doc p,
 .vp-doc ul,
 .vp-doc ol,
@@ -369,23 +402,23 @@
 .vp-doc table,
 .vp-doc .custom-block,
 .vp-doc div[class*="language-"] {
-	margin: 24px 0;
+	margin: 12px 0;
 }
 
 .vp-doc h1 {
-	margin: 0 0 24px;
+	margin: 0 0 12px;
 	line-height: 48px;
 }
 
 .vp-doc h2 {
-	margin: 48px 0 24px;
-	padding-top: 24px;
+	margin: 36px 0 12px;
+	padding-top: 12px;
 	line-height: 48px;
 }
 
 .vp-doc h3,
 .vp-doc h4 {
-	margin: 48px 0 24px;
+	margin: 24px 0 12px;
 	line-height: 24px;
 }
 
