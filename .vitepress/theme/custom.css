@@ -24,11 +24,15 @@
    Наверху главной навбар снова прозрачен: гифка доходит до края,
    а читаемость меню держит затемнение hero (см. ::after ниже). */
 .VPNavBar {
-	background-color: var(--vp-nav-bg-color) !important;
+	background-color: color-mix(in srgb, var(--vp-c-bg) 96%, #000) !important;
 }
 
-.VPNavBar.has-sidebar,
 .VPNavBar.home.top {
+	background-color: transparent !important;
+}
+
+/* Полосу под шапкой рисует сам VitePress — она тут лишняя. */
+.VPNavBar .divider-line {
 	background-color: transparent !important;
 }
 
@@ -463,19 +467,6 @@
 .vp-doc li > ul,
 .vp-doc li > ol {
 	margin-top: 0;
-}
-
-/* Хвост буфера: тильды на месте несуществующих строк. Лендинг —
-   не буфер, там они лишние. */
-.VPDoc .vp-doc > div::after {
-	content: "~\A~\A~\A~";
-	display: block;
-	margin-top: 24px;
-	color: var(--vim-dim);
-	font-size: 14px;
-	line-height: 1.6;
-	white-space: pre;
-	user-select: none;
 }
 
 /* Выделение текста — в цветах Visual-режима. */
