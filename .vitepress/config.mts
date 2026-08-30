@@ -9,19 +9,19 @@ const sidebarEn = [
 	{
 		text: "Guide",
 		items: [
-			{ text: "Getting Started", link: "/getting-started" },
-			{ text: "Extras", link: "/extras" },
-			{ text: "Configuration", link: "/configuration" },
-			{ text: "Keybindings", link: "/keybindings" },
-			{ text: "FAQ", link: "/faq" },
-			{ text: "Troubleshooting", link: "/troubleshooting" },
+			{ text: "🚀 Getting Started", link: "/getting-started" },
+			{ text: "🧩 Extras", link: "/extras" },
+			{ text: "⚙️ Configuration", link: "/configuration" },
+			{ text: "⌨️ Keybindings", link: "/keybindings" },
+			{ text: "❓ FAQ", link: "/faq" },
+			{ text: "🔧 Troubleshooting", link: "/troubleshooting" },
 		],
 	},
 	{
 		text: "Reference",
 		items: [
-			{ text: "Architecture", link: "/architecture" },
-			{ text: "API", link: "/api" },
+			{ text: "🏗️ Architecture", link: "/architecture" },
+			{ text: "🔌 API", link: "/api" },
 		],
 	},
 ];
@@ -30,19 +30,19 @@ const sidebarRu = [
 	{
 		text: "Руководство",
 		items: [
-			{ text: "Быстрый старт", link: "/ru/getting-started" },
-			{ text: "Экстры", link: "/ru/extras" },
-			{ text: "Настройка", link: "/ru/configuration" },
-			{ text: "Кеймапы", link: "/ru/keybindings" },
-			{ text: "FAQ", link: "/ru/faq" },
-			{ text: "Решение проблем", link: "/ru/troubleshooting" },
+			{ text: "🚀 Быстрый старт", link: "/ru/getting-started" },
+			{ text: "🧩 Экстры", link: "/ru/extras" },
+			{ text: "⚙️ Настройка", link: "/ru/configuration" },
+			{ text: "⌨️ Кеймапы", link: "/ru/keybindings" },
+			{ text: "❓ FAQ", link: "/ru/faq" },
+			{ text: "🔧 Решение проблем", link: "/ru/troubleshooting" },
 		],
 	},
 	{
 		text: "Справочник",
 		items: [
-			{ text: "Архитектура", link: "/ru/architecture" },
-			{ text: "API", link: "/ru/api" },
+			{ text: "🏗️ Архитектура", link: "/ru/architecture" },
+			{ text: "🔌 API", link: "/ru/api" },
 		],
 	},
 ];
@@ -66,6 +66,8 @@ export default defineConfig({
 	],
 	lastUpdated: true,
 	sitemap: { hostname: "https://lazyvimx.aimuzov.online" },
+	// Код с номерами строк — как в редакторе.
+	markdown: { lineNumbers: true },
 	// README описывает сам репозиторий сайта — это не страница.
 	srcExclude: ["README.md"],
 
@@ -79,9 +81,6 @@ export default defineConfig({
 					{ text: "Extras", link: "/extras" },
 				],
 				sidebar: sidebarEn,
-				footer: {
-					message: "made with ❤️ by aimuzov",
-				},
 			},
 		},
 		ru: {
@@ -101,9 +100,6 @@ export default defineConfig({
 				darkModeSwitchLabel: "Тема",
 				sidebarMenuLabel: "Меню",
 				returnToTopLabel: "Наверх",
-				footer: {
-					message: "сделано с ❤️ aimuzov",
-				},
 			},
 		},
 	},

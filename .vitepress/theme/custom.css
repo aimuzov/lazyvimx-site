@@ -151,3 +151,232 @@
 	background-color: rgba(202, 211, 245, 0.12);
 	color: #cad3f5;
 }
+
+/* Дальше — оформление сайта под интерфейс Neovim: статуслайн внизу,
+   вкладки-буферы в навбаре, курсор, тильды и Visual-выделение. */
+
+:root {
+	--vim-bar-bg: #ccd0da;
+	--vim-bar-fg: #4c4f69;
+	--vim-mode-normal: #1e66f5;
+	--vim-mode-visual: #8839ef;
+	--vim-mode-fg: #eff1f5;
+	--vim-accent: #1e66f5;
+	--vim-dim: #8c8fa1;
+	--vim-visual-bg: rgba(114, 135, 253, 0.25);
+}
+
+.dark {
+	--vim-bar-bg: #1e2030;
+	--vim-bar-fg: #a5adcb;
+	--vim-mode-normal: #8aadf4;
+	--vim-mode-visual: #c6a0f6;
+	--vim-mode-fg: #181926;
+	--vim-accent: #8aadf4;
+	--vim-dim: #5b6078;
+	--vim-visual-bg: rgba(138, 173, 244, 0.25);
+}
+
+.vim-statusline {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 60;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	height: 26px;
+	padding-right: 12px;
+	border-top: 1px solid var(--vp-c-divider);
+	background: var(--vim-bar-bg);
+	color: var(--vim-bar-fg);
+	font-size: 12px;
+	line-height: 26px;
+	white-space: nowrap;
+}
+
+.vim-statusline .mode {
+	padding: 0 14px;
+	background: var(--vim-mode-normal);
+	color: var(--vim-mode-fg);
+	font-weight: 700;
+	letter-spacing: 0.06em;
+}
+
+.vim-statusline.visual .mode {
+	background: var(--vim-mode-visual);
+}
+
+.vim-statusline .branch {
+	color: var(--vim-accent);
+}
+
+.vim-statusline .spacer {
+	flex: 1;
+}
+
+.vim-statusline .meta,
+.vim-statusline .file {
+	color: var(--vim-dim);
+}
+
+.vim-statusline .credit {
+	color: var(--vim-bar-fg);
+}
+
+.vim-statusline .percent {
+	min-width: 42px;
+	text-align: right;
+	color: var(--vim-accent);
+}
+
+/* Файл и служебные поля первыми уходят на узких экранах. */
+@media (max-width: 720px) {
+	.vim-statusline .file,
+	.vim-statusline .meta {
+		display: none;
+	}
+}
+
+/* Статуслайн перекрывает низ страницы — освобождаем под него полосу. */
+.VPFooter,
+.VPDocFooter {
+	padding-bottom: 34px;
+}
+
+/* Пункты навбара как вкладки буферов: активная подсвечена сверху. */
+.VPNavBarMenuLink {
+	padding: 0 14px !important;
+	border-top: 2px solid transparent;
+	border-right: 1px solid var(--vp-c-divider);
+	line-height: 46px !important;
+}
+
+.VPNavBarMenuLink.active {
+	border-top-color: var(--vim-accent);
+	background: var(--vp-c-bg-soft);
+}
+
+/* Сайдбар как дерево neo-tree: шапка с корнем проекта, группы —
+   раскрытые папки, пункты — файлы на направляющей линии. */
+.neo-tree-header {
+	display: flex;
+	align-items: baseline;
+	gap: 6px;
+	padding: 10px 0 12px;
+	border-bottom: 1px solid var(--vp-c-divider);
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--vp-c-text-1);
+}
+
+.neo-tree-header .hint {
+	font-weight: 400;
+	font-size: 11px;
+	color: var(--vim-dim);
+}
+
+.VPSidebarItem.level-0 > .item .text::before {
+	content: "▾ 📁 ";
+	color: var(--vim-dim);
+	font-weight: 400;
+}
+
+.VPSidebarItem.level-0 > .items {
+	margin-left: 7px;
+	border-left: 1px solid var(--vp-c-divider);
+}
+
+.VPSidebarItem.level-1 > .item {
+	position: relative;
+	padding-left: 14px;
+}
+
+/* Ветвление как рисует neo-tree: последний файл в папке замыкает
+   линию уголком, остальные висят на тройнике. */
+.VPSidebarItem.level-1 > .item::before {
+	content: "├─";
+	position: absolute;
+	top: 4px;
+	left: 0;
+	color: var(--vp-c-divider);
+}
+
+.VPSidebarItem.level-1:last-child > .item::before {
+	content: "└─";
+}
+
+/* Расширение приглушено — имя файла читается первым. */
+.VPSidebarItem.level-1 .link .text::after {
+	content: ".md";
+	color: var(--vim-dim);
+}
+
+/* Активный файл — cursorline на всю ширину панели. */
+.VPSidebarItem.level-1.is-active > .item {
+	margin-right: -32px;
+	padding-right: 32px;
+	border-radius: 3px;
+	background: var(--vp-c-bg-soft);
+}
+
+.VPSidebarItem.level-1.is-active > .item::before {
+	color: var(--vim-accent);
+}
+
+/* Курсор после заголовка — как в буфере на пустой строке. */
+.VPHome .VPHero .name::after {
+	content: "▊";
+	margin-left: 4px;
+	color: var(--vim-accent);
+	animation: vim-blink 1.2s step-end infinite;
+}
+
+@keyframes vim-blink {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+}
+
+/* Хвост буфера: тильды на месте несуществующих строк. Лендинг —
+   не буфер, там они лишние. */
+.VPDoc .vp-doc > div::after {
+	content: "~\A~\A~\A~";
+	display: block;
+	margin-top: 24px;
+	color: var(--vim-dim);
+	font-size: 14px;
+	line-height: 1.6;
+	white-space: pre;
+	user-select: none;
+}
+
+/* Выделение текста — в цветах Visual-режима. */
+::selection {
+	background: var(--vim-visual-bg);
+}
+
+/* Скроллбар терминальной толщины, без фона. */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: var(--vim-dim) transparent;
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 4px;
+	background: var(--vim-dim);
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}

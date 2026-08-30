@@ -110,6 +110,7 @@ function transform(text) {
 		return `## ${emo} ${name} {#${slug}}`;
 	});
 	text = text.replace(/\]\(#\p{Extended_Pictographic}️?-/gu, "](#");
+	text = text.replace(/\]\((\.\/[a-z-]+\.md)#\p{Extended_Pictographic}️?-/gu, "]($1#");
 
 	// Каждая демо-гифка существует в двух палитрах; какая видна —
 	// решает CSS по классу темы (см. custom.css). Гифки, записанные ещё
