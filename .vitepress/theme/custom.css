@@ -168,8 +168,11 @@
 
 :root {
 	/* Панель дерева на тон светлее страницы, как отдельное окно. */
-	--vp-sidebar-bg-color: color-mix(in srgb, var(--vim-bar-bg) 99%, #fff);
-	--vim-cursorline: color-mix(in srgb, var(--vim-bar-bg) 88%, #fff);
+	/* Тёмная тема берёт за основу цвет футера, светлая — свой тон:
+	   заливка статуслайна там слишком плотная для целой панели. */
+	--vim-panel-base: #e6e9ef;
+	--vp-sidebar-bg-color: color-mix(in srgb, var(--vim-panel-base) 99%, #fff);
+	--vim-cursorline: color-mix(in srgb, var(--vim-panel-base) 88%, #000);
 
 	--vim-bar-bg: #ccd0da;
 	--vim-bar-fg: #4c4f69;
@@ -183,6 +186,9 @@
 }
 
 .dark {
+	--vim-panel-base: #1e2030;
+	--vim-cursorline: color-mix(in srgb, var(--vim-panel-base) 88%, #fff);
+
 	--vim-bar-bg: #1e2030;
 	--vim-bar-fg: #a5adcb;
 	--vim-mode-normal: #8aadf4;
