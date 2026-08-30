@@ -167,6 +167,10 @@
 }
 
 :root {
+	/* Панель дерева на тон светлее страницы, как отдельное окно. */
+	--vp-sidebar-bg-color: #f4f5f8;
+	--vim-cursorline: #dce0e8;
+
 	--vim-bar-bg: #ccd0da;
 	--vim-bar-fg: #4c4f69;
 	--vim-mode-normal: #1e66f5;
@@ -179,6 +183,9 @@
 }
 
 .dark {
+	--vp-sidebar-bg-color: #2a2d40;
+	--vim-cursorline: #363a4f;
+
 	--vim-bar-bg: #1e2030;
 	--vim-bar-fg: #a5adcb;
 	--vim-mode-normal: #8aadf4;
@@ -379,8 +386,7 @@
 .VPSidebarItem.level-1.is-active > .item {
 	margin-right: -32px;
 	padding-right: 32px;
-	border-radius: 3px;
-	background: var(--vp-c-bg-soft);
+	background: var(--vim-cursorline);
 }
 
 .VPSidebarItem.level-1.is-active > .item::before {
