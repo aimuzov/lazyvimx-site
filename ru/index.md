@@ -5,9 +5,6 @@ hero:
   name: lazyvimx
   text: Слой улучшений для LazyVim
   tagline: 50 опциональных экстр и 39 оверрайдов плагинов. LazyVim остаётся как есть — остальное включается по кусочкам.
-  image:
-    src: https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/motions-splitting-joining-blocks.gif
-    alt: демо lazyvimx
   actions:
     - theme: brand
       text: 🚀 Быстрый старт

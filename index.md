@@ -5,9 +5,6 @@ hero:
   name: lazyvimx
   text: An enhancement layer for LazyVim
   tagline: 50 optional extras and 39 plugin overrides. LazyVim stays untouched — everything else is enabled piece by piece.
-  image:
-    src: https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/motions-splitting-joining-blocks.gif
-    alt: lazyvimx demo
   actions:
     - theme: brand
       text: 🚀 Get Started

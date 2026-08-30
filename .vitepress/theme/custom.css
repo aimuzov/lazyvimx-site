@@ -1,0 +1,33 @@
+/* Hero лендинга: гифка фоном и затемнение поверх, чтобы текст читался
+   в обеих темах — секция всегда тёмная, текст всегда светлый. */
+
+.VPHome .VPHero {
+	position: relative;
+	padding-bottom: 96px;
+	background: url("https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/colorschemes-nord.gif") center / cover no-repeat;
+}
+
+.VPHome .VPHero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(rgba(24, 25, 38, 0.9), rgba(24, 25, 38, 0.94));
+}
+
+.VPHome .VPHero > * {
+	position: relative;
+	z-index: 1;
+}
+
+.VPHome .VPHero .text {
+	color: #cad3f5;
+}
+
+.VPHome .VPHero .tagline {
+	color: #b8c0e0;
+}
+
+.VPHome .VPHero .action .VPButton.alt {
+	background-color: rgba(202, 211, 245, 0.12);
+	color: #cad3f5;
+}
