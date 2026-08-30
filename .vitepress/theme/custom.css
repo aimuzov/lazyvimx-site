@@ -314,27 +314,11 @@
 
 /* Сайдбар как дерево neo-tree: шапка с корнем проекта, группы —
    раскрытые папки, пункты — файлы на направляющей линии. */
-.neo-tree-header {
-	display: flex;
-	align-items: baseline;
-	gap: 6px;
-	padding: 10px 0 12px;
-	font-size: 13px;
-	font-weight: 600;
-	color: var(--vp-c-text-1);
-}
-
 /* В дереве папки идут подряд: ни линеек, ни отступов между ними. */
 .VPSidebar .group,
 .VPSidebar .group + .group {
 	border-top: 0;
 	padding: 0;
-}
-
-.neo-tree-header .hint {
-	font-weight: 400;
-	font-size: 11px;
-	color: var(--vim-dim);
 }
 
 .VPSidebarItem.level-0 > .item .text::before {
