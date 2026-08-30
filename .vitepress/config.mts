@@ -96,6 +96,7 @@ export default defineConfig({
 	},
 
 	themeConfig: {
+		externalLinkIcon: true,
 		socialLinks: [{ icon: "github", link: github }],
 		search: { provider: "local" },
 	},
