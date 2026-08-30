@@ -168,7 +168,7 @@
 
 :root {
 	/* Панель дерева на тон светлее страницы, как отдельное окно. */
-	--vp-sidebar-bg-color: #f4f5f8;
+	--vp-sidebar-bg-color: #f1f3f6;
 	--vim-cursorline: #dce0e8;
 
 	--vim-bar-bg: #ccd0da;
@@ -183,8 +183,8 @@
 }
 
 .dark {
-	--vp-sidebar-bg-color: #2a2d40;
-	--vim-cursorline: #363a4f;
+	--vp-sidebar-bg-color: #262939;
+	--vim-cursorline: #333747;
 
 	--vim-bar-bg: #1e2030;
 	--vim-bar-fg: #a5adcb;
