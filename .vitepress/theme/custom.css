@@ -32,6 +32,11 @@
 	background-color: transparent !important;
 }
 
+/* Название проекта не отчёркиваем — панель и так отделена. */
+.VPNavBarTitle .title {
+	border-bottom: 0;
+}
+
 .VPHome .VPHero {
 	position: relative;
 	padding-bottom: 96px;
