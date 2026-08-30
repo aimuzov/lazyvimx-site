@@ -27,10 +27,6 @@
 	background-color: color-mix(in srgb, var(--vp-c-bg) 96%, #000) !important;
 }
 
-.VPNavBar.home.top {
-	background-color: transparent !important;
-}
-
 /* Полосу под шапкой рисует сам VitePress — она тут лишняя. */
 .VPNavBar .divider-line {
 	background-color: transparent !important;
@@ -144,15 +140,6 @@
 		rgba(var(--hero-rgb), 0.88) 680px,
 		rgb(var(--hero-rgb)) 920px
 	);
-}
-
-/* Под прозрачным навбаром гифку прижимает лёгкое затемнение —
-   иначе пункты меню тонут в коде записи. */
-.VPHome .VPHero::after {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background: linear-gradient(to bottom, rgba(var(--hero-rgb), 0.8) 0px, transparent 140px);
 }
 
 .VPHome .VPHero > * {
