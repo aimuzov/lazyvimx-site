@@ -19,9 +19,14 @@
 }
 
 /* Штатный навбар прозрачен и пускает hero-гифку под текст меню;
-   сплошной фон темы читается лучше. */
+   сплошной фон темы читается лучше. Со включённым сайдбаром фон
+   рисует он сам — заливка навбара дала бы линию стыка над ним. */
 .VPNavBar {
 	background-color: var(--vp-nav-bg-color) !important;
+}
+
+.VPNavBar.has-sidebar {
+	background-color: transparent !important;
 }
 
 .VPHome .VPHero {
