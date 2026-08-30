@@ -98,6 +98,33 @@ export default defineConfig({
 		siteTitle: "~/lazyvimx",
 		externalLinkIcon: true,
 		socialLinks: [{ icon: "github", link: github }],
-		search: { provider: "local" },
+		// Локальный поиск не переводится сам — подписи задаём вручную.
+		search: {
+			provider: "local",
+			options: {
+				locales: {
+					ru: {
+						translations: {
+							button: { buttonText: "Поиск", buttonAriaLabel: "Поиск" },
+							modal: {
+								displayDetails: "Показать подробности",
+								resetButtonTitle: "Сбросить",
+								backButtonTitle: "Назад",
+								noResultsText: "Ничего не нашлось",
+								footer: {
+									selectText: "выбрать",
+									selectKeyAriaLabel: "Enter",
+									navigateText: "перейти",
+									navigateUpKeyAriaLabel: "Вверх",
+									navigateDownKeyAriaLabel: "Вниз",
+									closeText: "закрыть",
+									closeKeyAriaLabel: "Esc",
+								},
+							},
+						},
+					},
+				},
+			},
+		},
 	},
 });

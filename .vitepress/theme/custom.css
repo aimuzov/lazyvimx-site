@@ -23,11 +23,41 @@
    рисует он сам — заливка навбара дала бы линию стыка над ним.
    Наверху главной навбар снова прозрачен: гифка доходит до края,
    а читаемость меню держит затемнение hero (см. ::after ниже). */
-.VPNavBar {
-	background-color: color-mix(in srgb, var(--vp-c-bg) 96%, #000) !important;
+/* Цвет шапки живёт в штатной переменной: ею красится и сама полоса,
+   и внутренняя .content-body — иначе они разъезжаются. На светлом
+   фоне та же доля чёрного даёт грязно-серую полосу, поэтому доли
+   у тем разные. */
+:root {
+	--vp-nav-bg-color: color-mix(in srgb, var(--vp-c-bg) 96%, #000);
 }
 
-/* Полосу под шапкой рисует сам VitePress — она тут лишняя. */
+.dark {
+	--vp-nav-bg-color: color-mix(in srgb, var(--vp-c-bg) 85%, #000);
+}
+
+.VPNavBar {
+	background-color: var(--vp-nav-bg-color) !important;
+	transition: none;
+}
+
+/* Штатная заливка поиска совпала с новой шапкой — берём цвет
+   страницы и очерчиваем полем. */
+.DocSearch-Button {
+	background: var(--vp-c-bg) !important;
+	border: 1px solid var(--vp-c-divider) !important;
+}
+
+/* Поиск по умолчанию растянут во всю шапку — сжимаем его до кнопки
+   и прижимаем к переключателю языка. */
+.VPNavBarSearch {
+	flex-grow: 0;
+	margin-left: auto;
+	padding: 0 12px 0 0;
+}
+
+/* Полосу под шапкой рисует сам VitePress — заливкой на самой линии
+   и на её обёртке. Гасим обе. */
+.VPNavBar .divider,
 .VPNavBar .divider-line {
 	background-color: transparent !important;
 }
@@ -171,7 +201,7 @@
 /* Дерево файлов длиннее обычного меню — панели нужна ширина, чтобы
    имена не переносились. */
 :root {
-	--vp-sidebar-width: 320px;
+	--vp-sidebar-width: 272px;
 }
 
 :root {
