@@ -63,6 +63,9 @@ export default defineConfig({
 					{ text: "Extras", link: "/extras" },
 				],
 				sidebar: sidebarEn,
+				footer: {
+					message: "made with ❤️ by aimuzov",
+				},
 			},
 		},
 		ru: {
@@ -82,6 +85,9 @@ export default defineConfig({
 				darkModeSwitchLabel: "Тема",
 				sidebarMenuLabel: "Меню",
 				returnToTopLabel: "Наверх",
+				footer: {
+					message: "сделано с ❤️ aimuzov",
+				},
 			},
 		},
 	},

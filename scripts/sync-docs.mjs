@@ -20,7 +20,8 @@ function findSource() {
 	const cache = join(root, ".cache/lazyvimx");
 	rmSync(cache, { recursive: true, force: true });
 	mkdirSync(dirname(cache), { recursive: true });
-	execFileSync("git", ["clone", "--depth", "1", `${github}.git`, cache], { stdio: "inherit" });
+	// Актуальные доки живут в develop: main отстаёт до ближайшего релиза.
+	execFileSync("git", ["clone", "--depth", "1", "--branch", "develop", `${github}.git`, cache], { stdio: "inherit" });
 
 	return cache;
 }
@@ -69,6 +70,13 @@ function transform(text) {
 	}
 	text = text.replaceAll("(../README.ru.md", "(./getting-started.md");
 	text = text.replaceAll("(../README.md", "(./getting-started.md");
+
+	// Каждая демо-гифка существует в двух палитрах; какая видна —
+	// решает CSS по классу темы (см. custom.css).
+	text = text.replace(
+		/!\[([^\]]*)\]\((https:\/\/raw\.githubusercontent\.com\/aimuzov\/lazyvimx\/assets\/demo\/[a-z0-9-]+)\.gif\)/g,
+		'<p><img class="gif-dark" loading="lazy" src="$2.gif" alt="$1"><img class="gif-light" loading="lazy" src="$2-light.gif" alt="$1"></p>',
+	);
 
 	// Всё, что живёт только в репозитории, — на GitHub.
 	text = text.replaceAll("(../lua/", `(${github}/blob/main/lua/`);

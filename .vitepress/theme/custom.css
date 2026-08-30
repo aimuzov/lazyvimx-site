@@ -1,17 +1,69 @@
-/* Hero лендинга: гифка фоном и затемнение поверх, чтобы текст читался
-   в обеих темах — секция всегда тёмная, текст всегда светлый. */
+/* Hero лендинга: слева сплошной цвет под текстом, справа гифка, между
+   ними градиент. Обе палитры — свои гифка и заливка на каждую тему. */
+
+.VPHome .VPFeatures {
+	padding-top: 64px;
+}
+
+/* VPContent растянут флексом до футера, а VPHome внутри короче — и
+   остаток высоты выглядит случайным отступом. Пусть будут равны. */
+.VPContent.is-home {
+	display: flex;
+	flex-direction: column;
+}
+
+.VPContent.is-home .VPHome {
+	flex: 1;
+	margin-bottom: 0;
+	padding-bottom: 48px;
+}
 
 .VPHome .VPHero {
 	position: relative;
 	padding-bottom: 96px;
-	background: url("https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/colorschemes-nord.gif") center / cover no-repeat;
+	background-color: var(--hero-bg);
+	background-image: var(--hero-gif);
+	background-repeat: no-repeat;
+	background-position: right center;
+	background-size: auto 100%;
 }
 
+:root {
+	--hero-bg: #dce0e8;
+	--hero-gif: url("https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/ui-better-diagnostic-light.gif");
+	--hero-rgb: 220, 224, 232;
+}
+
+.dark {
+	--hero-bg: #181926;
+	--hero-gif: url("https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/ui-better-diagnostic.gif");
+	--hero-rgb: 24, 25, 38;
+}
+
+/* В доках каждая гифка лежит парой; лишнюю прячет класс темы. */
+.gif-light,
+.dark .gif-dark {
+	display: block;
+}
+
+.gif-dark,
+.dark .gif-light {
+	display: none;
+}
+
+/* Слева — сплошной цвет под текстом, вправо он растворяется
+   и открывает гифку. */
 .VPHome .VPHero::before {
 	content: "";
 	position: absolute;
 	inset: 0;
-	background: linear-gradient(rgba(24, 25, 38, 0.9), rgba(24, 25, 38, 0.94));
+	background: linear-gradient(
+		100deg,
+		rgb(var(--hero-rgb)) 40%,
+		rgba(var(--hero-rgb), 0.72) 56%,
+		rgba(var(--hero-rgb), 0.15) 72%,
+		rgba(var(--hero-rgb), 0) 100%
+	);
 }
 
 .VPHome .VPHero > * {
@@ -19,15 +71,15 @@
 	z-index: 1;
 }
 
-.VPHome .VPHero .text {
+.dark .VPHome .VPHero .text {
 	color: #cad3f5;
 }
 
-.VPHome .VPHero .tagline {
+.dark .VPHome .VPHero .tagline {
 	color: #b8c0e0;
 }
 
-.VPHome .VPHero .action .VPButton.alt {
+.dark .VPHome .VPHero .action .VPButton.alt {
 	background-color: rgba(202, 211, 245, 0.12);
 	color: #cad3f5;
 }
