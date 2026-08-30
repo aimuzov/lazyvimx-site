@@ -52,6 +52,9 @@ export default defineConfig({
 	description: "An enhancement layer on top of LazyVim: 50 optional extras and 39 plugin overrides",
 	cleanUrls: true,
 	lastUpdated: true,
+	sitemap: { hostname: "https://lazyvimx.aimuzov.online" },
+	// README описывает сам репозиторий сайта — это не страница.
+	srcExclude: ["README.md"],
 
 	locales: {
 		root: {
