@@ -216,6 +216,8 @@
 	--vim-bar-fg: #4c4f69;
 	--vim-mode-normal: #1e66f5;
 	--vim-mode-visual: #8839ef;
+	--vim-mode-command: #fe640b;
+	--vim-error: #d20f39;
 	--vim-mode-fg: #eff1f5;
 	--vim-accent: #1e66f5;
 	--vim-dim: #8c8fa1;
@@ -231,6 +233,8 @@
 	--vim-bar-fg: #a5adcb;
 	--vim-mode-normal: #8aadf4;
 	--vim-mode-visual: #c6a0f6;
+	--vim-mode-command: #f5a97f;
+	--vim-error: #ed8796;
 	--vim-mode-fg: #181926;
 	--vim-accent: #8aadf4;
 	--vim-dim: #5b6078;
@@ -314,6 +318,10 @@
 	background: var(--vim-mode-visual);
 }
 
+.vim-statusline.command .mode {
+	background: var(--vim-mode-command);
+}
+
 /* Слева секцию поджимает скос предыдущей — добавляем его ширину. */
 .vim-statusline .branch {
 	padding-left: 26px;
@@ -326,6 +334,26 @@
 
 .vim-statusline .file {
 	color: var(--vim-dim);
+}
+
+/* Эхо набранной последовательности — там же, где showcmd в vim. */
+.vim-statusline .showcmd {
+	min-width: 42px;
+	padding-right: 6px;
+	color: var(--vim-accent);
+	font-weight: 700;
+	text-align: right;
+}
+
+.vim-statusline .help {
+	padding: 0 12px;
+	color: var(--vim-dim);
+	font-weight: 700;
+	transition: color 0.25s;
+}
+
+.vim-statusline .help:hover {
+	color: var(--vim-accent);
 }
 
 /* Ширина фиксирована: иначе секция дёргается на каждом проценте. */
@@ -348,6 +376,137 @@
 .VPFooter,
 .VPDocFooter {
 	padding-bottom: 34px;
+}
+
+/* Командная строка и сообщения — на самом низу, статуслайн поднимается
+   над ними: те же две последние строки, что и в vim. */
+.vim-cmdline {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 60;
+	display: flex;
+	align-items: center;
+	height: 26px;
+	padding: 0 16px;
+	background: var(--vp-c-bg);
+	font-size: 12px;
+	line-height: 26px;
+	white-space: nowrap;
+}
+
+.vim-cmdline-open .vim-statusline {
+	bottom: 26px;
+}
+
+.vim-cmdline .prompt {
+	color: var(--vim-accent);
+	font-weight: 700;
+}
+
+.vim-cmdline .input {
+	flex: 1;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: var(--vp-c-text-1);
+	font: inherit;
+}
+
+.vim-cmdline .message {
+	color: var(--vim-error);
+}
+
+/* Метки на ссылках. Слой прибит к вьюпорту, поэтому координаты меток —
+   те самые, что вернул getBoundingClientRect. */
+.vim-hints {
+	position: fixed;
+	z-index: 100;
+	inset: 0;
+	pointer-events: none;
+}
+
+.vim-hints .hint {
+	position: absolute;
+	transform: translate(-2px, -1px);
+	padding: 0 4px;
+	background: var(--vim-mode-command);
+	color: var(--vim-mode-fg);
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 17px;
+	letter-spacing: 0.06em;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+}
+
+/* Набранное гаснет, дотянуть остаётся яркое. */
+.vim-hints .done {
+	opacity: 0.4;
+}
+
+.vim-whichkey {
+	position: fixed;
+	right: 0;
+	bottom: 26px;
+	left: 0;
+	z-index: 59;
+	max-height: 60vh;
+	overflow-y: auto;
+	padding: 12px 24px 16px;
+	border-top: 1px solid var(--vp-c-divider);
+	background: var(--vim-panel-base);
+	font-size: 12px;
+}
+
+.vim-cmdline-open .vim-whichkey {
+	bottom: 52px;
+}
+
+.vim-whichkey .head {
+	margin-bottom: 10px;
+	color: var(--vim-accent);
+	font-weight: 700;
+}
+
+.vim-whichkey .groups {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 2px 24px;
+}
+
+.vim-whichkey .title {
+	grid-column: 1 / -1;
+	margin: 10px 0 2px;
+	color: var(--vim-dim);
+}
+
+.vim-whichkey .title:first-child {
+	margin-top: 0;
+}
+
+.vim-whichkey .row {
+	display: flex;
+	gap: 8px;
+	line-height: 22px;
+	white-space: nowrap;
+}
+
+.vim-whichkey .seq {
+	flex: none;
+	min-width: 84px;
+	color: var(--vim-accent);
+	font-weight: 700;
+}
+
+.vim-whichkey .arrow {
+	flex: none;
+	color: var(--vim-dim);
+}
+
+.vim-whichkey .text {
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 /* Сайдбар как дерево neo-tree: шапка с корнем проекта, группы —

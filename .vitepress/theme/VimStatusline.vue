@@ -4,6 +4,8 @@
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { useData, useRoute } from "vitepress";
 
+import { vim } from "./vim-state";
+
 const route = useRoute();
 const { lang } = useData();
 
@@ -16,8 +18,12 @@ const file = computed(() => {
 	return `~/lazyvimx/${path.replace(/\.html$/, "")}.md`;
 });
 
-const mode = computed(() => (visual.value ? "VISUAL" : "NORMAL"));
+const command = computed(() => vim.mode === "COMMAND");
+const mode = computed(() => (command.value ? "COMMAND" : visual.value ? "VISUAL" : "NORMAL"));
 const credit = computed(() => (lang.value === "ru" ? "сделано с ❤️ aimuzov" : "made with ❤️ by aimuzov"));
+
+// Эхо набранного, как showcmd: пробел лидера иначе выглядит пустотой.
+const showcmd = computed(() => (vim.count + vim.pending).replace(/ /g, "␣"));
 
 function onScroll() {
 	const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -45,13 +51,17 @@ onUnmounted(() => {
 </script>
 
 <template>
-	<div class="vim-statusline" :class="{ visual }">
+	<div class="vim-statusline" :class="{ visual, command }">
 		<!-- Глифов Nerd Font в веб-шрифте нет: точка вместо иконки режима,
 		     скошенные границы секций рисует clip-path. -->
 		<span class="section mode">● {{ mode }}</span>
 		<span class="section branch">● main</span>
 		<span class="file">{{ file }}</span>
 		<span class="spacer"></span>
+		<span class="showcmd">{{ showcmd }}</span>
+		<!-- Про клавиши иначе никто не узнает — пусть о них напоминает
+		     сама полоса. -->
+		<button class="help" type="button" @click="vim.sheet = !vim.sheet">?</button>
 		<span class="section credit">{{ credit }}</span>
 		<span class="section percent">{{ percent }}</span>
 	</div>
