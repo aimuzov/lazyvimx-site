@@ -73,20 +73,6 @@ export default defineConfig({
 				crossorigin: "",
 			},
 		],
-		// Постер hero — самый крупный элемент первого экрана лендинга,
-		// а браузер добирается до него только через разметку. Палитру
-		// отбираем через media, чтобы качать один файл, а не оба.
-		...["", "-light"].map((theme) => [
-			"link",
-			{
-				rel: "preload",
-				as: "image",
-				type: "image/webp",
-				fetchpriority: "high",
-				href: `${demoBase}/hero${theme}-poster.webp`,
-				media: theme ? "(prefers-color-scheme: light)" : "(prefers-color-scheme: dark)",
-			},
-		]),
 	],
 	lastUpdated: true,
 	sitemap: { hostname: site },
@@ -127,6 +113,27 @@ export default defineConfig({
 				: "An enhancement layer on top of LazyVim: 50 optional extras and 39 plugin overrides");
 
 		pageData.frontmatter.head ??= [];
+
+		// Постер hero — самый крупный элемент первого экрана лендинга, а
+		// браузер добирается до него только через разметку. Палитру
+		// отбираем через media, чтобы качать один файл, а не оба. Hero
+		// есть только на лендинге, на доках эта пара была бы напрасной.
+		if (pageData.frontmatter.layout === "home") {
+			for (const theme of ["", "-light"]) {
+				pageData.frontmatter.head.push([
+					"link",
+					{
+						rel: "preload",
+						as: "image",
+						type: "image/webp",
+						fetchpriority: "high",
+						href: `${demoBase}/hero${theme}-poster.webp`,
+						media: theme ? "(prefers-color-scheme: light)" : "(prefers-color-scheme: dark)",
+					},
+				]);
+			}
+		}
+
 		pageData.frontmatter.head.push(
 			["link", { rel: "canonical", href: url }],
 			["link", { rel: "alternate", hreflang: "en", href: enUrl }],

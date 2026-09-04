@@ -125,6 +125,17 @@
 	display: none;
 }
 
+/* Компонент собран из строчных элементов, чтобы пережить обёртку <p>
+   от markdown (см. DemoPlayer.vue), — блочными их делает CSS. */
+.demo-player,
+.demo-frame {
+	display: block;
+}
+
+.demo-frame {
+	margin-top: 8px;
+}
+
 /* Рамка и тень отделяют запись от фона страницы. Место под неё держит
    aspect-ratio из тейпа (см. DemoPlayer.vue) — иначе страница прыгала
    бы на каждой подгрузке. */
@@ -164,10 +175,6 @@
 	color: var(--vp-c-text-1);
 	background: var(--vp-c-bg);
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-}
-
-.demo-tabs p {
-	margin-top: 8px;
 }
 
 /* Ссылки на соседние страницы — той же заливкой, что и переключатель

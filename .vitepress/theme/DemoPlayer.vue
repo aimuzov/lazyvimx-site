@@ -6,7 +6,7 @@
 Гифки никуда не делись: их показывает GitHub в README и EXTRAS.md, где
 <video> не проигрывается. Здесь же — только mp4. -->
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useData } from "vitepress";
 
 import { demoSource, demoUnreachable } from "./demo-source.js";
@@ -36,14 +36,19 @@ let observer;
 
 // У <video> нет loading="lazy", так что ленивость держим сами: пока
 // запись за экраном, у неё нет даже src — браузеру нечего скачивать.
+// Появившийся src запускает запись сам, через autoplay; play() ниже
+// нужен только чтобы вернуть её к жизни после ухода с экрана.
 onMounted(() => {
 	if (!video.value) return;
 
 	observer = new IntersectionObserver(
 		([entry]) => {
 			visible.value = entry.isIntersecting;
-			if (entry.isIntersecting) play();
-			else video.value?.pause();
+			if (!entry.isIntersecting) return video.value?.pause();
+
+			// src проставляет Vue, а он обновляет DOM отложенно: играть
+			// зовём следующим тиком, иначе попадём на пустой <video>.
+			nextTick(play);
 		},
 		{ rootMargin: "200px" },
 	);
@@ -71,13 +76,18 @@ function play() {
 // прежним и второго круга не будет.
 </script>
 
+<!-- Всё внутри — строчные элементы, и корень тоже. Компонент попадает
+в разметку из markdown, а тот заворачивает его в <p>: блочный тег внутри
+абзаца браузер выносит наружу, разметка расходится с серверной и вся
+гидрация рассыпается. На dev это не видно — там DOM строится через API,
+а не разбором html. -->
 <template>
-	<div class="demo-player">
-		<div v-if="before" class="demo-tabs-bar">
+	<span class="demo-player">
+		<span v-if="before" class="demo-tabs-bar">
 			<button :class="{ active: showBefore }" type="button" @click="showBefore = true">{{ labels[0] }}</button>
 			<button :class="{ active: !showBefore }" type="button" @click="showBefore = false">{{ labels[1] }}</button>
-		</div>
-		<p>
+		</span>
+		<span class="demo-frame">
 			<video
 				ref="video"
 				:src="visible ? src : undefined"
@@ -85,12 +95,13 @@ function play() {
 				:height="height"
 				:aria-label="`${alt}: ${name}`"
 				:style="{ aspectRatio: `${width} / ${height}` }"
+				autoplay
 				muted
 				loop
 				playsinline
 				preload="none"
 				@error="demoUnreachable"
 			/>
-		</p>
-	</div>
+		</span>
+	</span>
 </template>
