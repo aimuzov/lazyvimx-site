@@ -10,10 +10,10 @@
 const commit = "5de843c51aec6b5d7998a6e45ce119b09f23e88f";
 const path = `/gh/aimuzov/lazyvimx@${commit}/demo`;
 
-export const demoBase = `https://cdn.jsdelivr.net${path}`;
-
-// Общий вход jsDelivr во многих сетях отвечает через Cloudflare, а в
-// России его режут — файл может не дойти. У jsDelivr есть прямые входы
-// в каждую из своих сетей; этот идёт через Fastly, отдаёт те же файлы
-// с тем же годовым кешем и Cloudflare не задействует.
-export const demoFallback = `https://fastly.jsdelivr.net${path}`;
+// Общий вход jsDelivr (cdn.jsdelivr.net) во многих сетях отвечает через
+// Cloudflare, а его в России режут: записи просто не доезжали. Берём
+// прямой вход в сеть Fastly — те же файлы, тот же годовой кеш, но без
+// Cloudflare. Общий вход остаётся запасным: он умнее выбирает ближнюю
+// точку, и там, где Cloudflare доступен, это чуть быстрее.
+export const demoBase = `https://fastly.jsdelivr.net${path}`;
+export const demoFallback = `https://cdn.jsdelivr.net${path}`;
