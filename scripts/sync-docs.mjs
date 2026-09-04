@@ -103,7 +103,8 @@ function transform(text) {
 	text = text.replace(/ \(\[🇷🇺\]\([^)]*\)\)/g, "");
 	text = text.replace(/ \(\[🇬🇧\]\([^)]*\)\)/g, "");
 
-	// Бейджи из шапки README дублируют hero лендинга.
+	// Баннер и бейджи из шапки README дублируют hero лендинга.
+	text = text.replace(/^!\[[^\]]*\]\([^)]*banner[^)]*\)\n\n/, "");
 	text = text.replace(/<div align="center">[\s\S]*?<\/div>\n\n/, "");
 
 	// Взаимные ссылки доков — на страницы сайта (в своей локали).
