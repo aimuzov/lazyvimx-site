@@ -29,18 +29,18 @@ onMounted(() => {
 watch([isDark, demoSource], () => nextTick(load));
 
 function load() {
-	// Тему на <html> ставит инлайн-скрипт темы ещё до гидрации, так что
-	// видимая запись определяется по вычисленным стилям, а не по догадке
-	// о палитре.
+	// Класс палитры инлайн-скрипт темы ставит на <html> ещё до гидрации —
+	// читаем его, а не вычисленные стили: те сразу после перестановки
+	// узла заставили бы браузер пересчитать раскладку.
 	const all = [...(root.value?.querySelectorAll("video") ?? [])];
-	const shown = all.find((v) => getComputedStyle(v).display !== "none");
+	const theme = document.documentElement.classList.contains("dark") ? "" : "-light";
+	const shown = all.find((v) => v.classList.contains(theme ? "hero-light" : "hero-dark"));
 	if (!shown) return;
 
 	// Палитру успевают переключить и во время гидрации: без этого адрес
 	// остался бы и на записи другой темы, а значит уехал бы в сеть.
 	for (const v of all) if (v !== shown) v.removeAttribute("src");
 
-	const theme = shown.classList.contains("hero-light") ? "-light" : "";
 	const src = `${demoSource.value}/hero${theme}.mp4`;
 	if (shown.src === src) return;
 

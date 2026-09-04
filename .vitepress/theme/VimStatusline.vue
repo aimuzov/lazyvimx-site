@@ -31,6 +31,7 @@ const showcmd = computed(() => (vim.count + vim.pending).replace(/ /g, "␣"));
 // за этим и следит наблюдатель.
 let max = 0;
 let frame = 0;
+let start = 0;
 let observer;
 
 function measure() {
@@ -68,9 +69,15 @@ onMounted(() => {
 	window.addEventListener("resize", onResize, { passive: true });
 	document.addEventListener("selectionchange", onSelection);
 
-	observer = new ResizeObserver(onResize);
-	observer.observe(document.documentElement);
-	onResize();
+	// Первый замер — следующим кадром: в момент монтирования страница
+	// ещё достраивается, и чтение высоты остановило бы её ради
+	// пересчёта раскладки.
+	start = requestAnimationFrame(() => {
+		start = 0;
+		observer = new ResizeObserver(onResize);
+		observer.observe(document.documentElement);
+		onResize();
+	});
 });
 
 onUnmounted(() => {
@@ -79,6 +86,7 @@ onUnmounted(() => {
 	document.removeEventListener("selectionchange", onSelection);
 	observer?.disconnect();
 	cancelAnimationFrame(frame);
+	cancelAnimationFrame(start);
 });
 </script>
 
