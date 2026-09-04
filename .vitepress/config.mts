@@ -61,7 +61,7 @@ export default defineConfig({
 	// лежат в public/fonts, объявления в theme/fonts.css; предзагружаем
 	// только латиницу обычного начертания — ею набрано почти всё.
 	head: [
-		["link", { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
+		["link", { rel: "icon", type: "image/png", href: "/favicon.png" }],
 		["link", { rel: "apple-touch-icon", href: "/apple-touch-icon.png" }],
 		[
 			"link",
