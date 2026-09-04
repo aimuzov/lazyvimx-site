@@ -1,5 +1,5 @@
-/* Hero лендинга: слева сплошной цвет под текстом, справа гифка, между
-   ними градиент. Обе палитры — свои гифка и заливка на каждую тему. */
+/* Hero лендинга: слева сплошной цвет под текстом, справа запись, между
+   ними градиент. Обе палитры — своя запись и заливка на каждую тему. */
 
 .VPHome .VPFeatures {
 	padding-top: 24px;
@@ -71,10 +71,34 @@
 	position: relative;
 	padding-bottom: 96px;
 	background-color: var(--hero-bg);
-	background-image: var(--hero-gif);
-	background-repeat: no-repeat;
-	background-position: right center;
-	background-size: auto 100%;
+}
+
+/* Запись прижата вправо и подрезана по высоте hero — как раньше
+   background-size: auto 100%. Слой под градиентом (::before ниже) и
+   под текстом, поэтому z-index явный: правило .VPHero > * поднимает
+   всех прямых детей, а этот должен остаться внизу.
+
+   Позиционируется от .VPHome, пока HeroDemo не переставит его внутрь
+   hero: до гидрации это то же самое место. */
+.VPHome {
+	position: relative;
+}
+
+.hero-demo,
+.VPHome .VPHero > .hero-demo {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	overflow: hidden;
+}
+
+.hero-demo video {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: auto;
+	max-width: none;
+	height: 100%;
 }
 
 :root {
@@ -82,36 +106,39 @@
 	--vp-font-family-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
 	--hero-bg: #dce0e8;
-	--hero-gif: url("https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/hero-light.gif");
 	--hero-rgb: 220, 224, 232;
 }
 
 .dark {
 	--hero-bg: #181926;
-	--hero-gif: url("https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/hero.gif");
 	--hero-rgb: 24, 25, 38;
 }
 
-/* В доках каждая гифка лежит парой; лишнюю прячет класс темы.
-   Рамка и тень отделяют запись от фона страницы. */
-.gif-dark,
-.gif-light {
-	border: 1px solid var(--vp-c-divider);
-	border-radius: 10px;
-	box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
-}
-
-.gif-light,
-.dark .gif-dark {
+/* Записи лежат парами, по одной на палитру; лишнюю прячет класс темы. */
+.hero-light,
+.dark .hero-dark {
 	display: block;
 }
 
-.gif-dark,
-.dark .gif-light {
+.hero-dark,
+.dark .hero-light {
 	display: none;
 }
 
-/* Переключатель «После | До» над гифкой (см. DemoTabs.vue). */
+/* Рамка и тень отделяют запись от фона страницы. Место под неё держит
+   aspect-ratio из тейпа (см. DemoPlayer.vue) — иначе страница прыгала
+   бы на каждой подгрузке. */
+.demo-player video {
+	display: block;
+	width: 100%;
+	height: auto;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 10px;
+	box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+	background: var(--vp-c-bg-soft);
+}
+
+/* Переключатель «После | До» над записью (см. DemoPlayer.vue). */
 .demo-tabs-bar {
 	display: inline-flex;
 	gap: 4px;
@@ -183,13 +210,15 @@
 }
 
 /* Слева — сплошной цвет под текстом, вправо он растворяется
-   и открывает гифку. */
+   и открывает запись. Тот же z-index, что у текста: при равенстве
+   решает порядок в документе, а ::before идёт до детей. */
 .VPHome .VPHero::before {
 	content: "";
 	position: absolute;
 	inset: 0;
+	z-index: 1;
 	/* Стопы в пикселях от правого края: прозрачная зона совпадает
-	   с шириной гифки, дальше влево — сплошная заливка. */
+	   с шириной записи, дальше влево — сплошная заливка. */
 	background: linear-gradient(
 		to left,
 		rgba(var(--hero-rgb), 0.1) 0px,
@@ -239,15 +268,31 @@
 	--vp-sidebar-bg-color: color-mix(in srgb, var(--vim-panel-base) 99%, #fff);
 	--vim-cursorline: color-mix(in srgb, var(--vp-sidebar-bg-color) 95%, #000);
 
+	/* Синим latte набраны все ссылки, и на фоне страницы он даёт 4.34:1
+	   вместо нужных 4.5. Темнее на пару тонов — и ссылки, и заливка
+	   кнопок проходят. */
+	--vp-c-brand-1: #1a5ad9;
+	--vp-c-brand-3: #1a5ad9;
+
+	/* Инлайн-код лежит на своей серой плашке — там тот же синий тонет,
+	   ему нужен ещё один шаг вглубь. */
+	--vp-code-color: #1a4b9e;
+
+	/* Блок кода белым: на сером фоне комментарии подсветки давали 3.96,
+	   а перекрасить их нечем — цвет приходит из темы shiki. */
+	--vp-code-block-bg: #fff;
+
+	/* Синий и приглушённый серый взяты темнее палитры latte: на заливке
+	   статуслайна её штатные оттенки не дотягивают до 4.5:1. */
 	--vim-bar-bg: #ccd0da;
-	--vim-bar-fg: #4c4f69;
-	--vim-mode-normal: #1e66f5;
+	--vim-bar-fg: #43465a;
+	--vim-mode-normal: #1a5ad9;
 	--vim-mode-visual: #8839ef;
 	--vim-mode-command: #fe640b;
 	--vim-error: #d20f39;
 	--vim-mode-fg: #eff1f5;
-	--vim-accent: #1e66f5;
-	--vim-dim: #8c8fa1;
+	--vim-accent: #1a4b9e;
+	--vim-dim: #50536c;
 	--vim-visual-bg: rgba(114, 135, 253, 0.25);
 	--vim-section-bg: #bcc0cc;
 }
@@ -264,7 +309,7 @@
 	--vim-error: #ed8796;
 	--vim-mode-fg: #181926;
 	--vim-accent: #8aadf4;
-	--vim-dim: #5b6078;
+	--vim-dim: #8087a2;
 	--vim-visual-bg: rgba(138, 173, 244, 0.25);
 	--vim-section-bg: #363a4f;
 }
