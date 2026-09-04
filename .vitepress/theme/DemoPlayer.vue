@@ -9,7 +9,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useData } from "vitepress";
 
-import { demoBase } from "./demo-base.js";
+import { demoSource, demoUnreachable } from "./demo-source.js";
 
 const props = defineProps({
 	name: String,
@@ -27,7 +27,7 @@ const showBefore = ref(false);
 const src = computed(() => {
 	const before = showBefore.value ? "-before" : "";
 	const theme = isDark.value ? "" : "-light";
-	return `${demoBase}/${props.name}${before}${theme}.mp4`;
+	return `${demoSource.value}/${props.name}${before}${theme}.mp4`;
 });
 
 const video = ref(null);
@@ -65,6 +65,10 @@ function play() {
 	// браузера) — это не ошибка страницы, показываем как есть.
 	video.value?.play().catch(() => {});
 }
+
+// Запись не доехала — уходим на запасной вход CDN. Адрес сменится,
+// watch выше перезарядит <video>. Если и там ошибка, адрес останется
+// прежним и второго круга не будет.
 </script>
 
 <template>
@@ -85,6 +89,7 @@ function play() {
 				loop
 				playsinline
 				preload="none"
+				@error="demoUnreachable"
 			/>
 		</p>
 	</div>

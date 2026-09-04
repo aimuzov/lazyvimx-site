@@ -8,7 +8,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 
-import { demoBase } from "./demo-base.js";
+import { demoSource, demoUnreachable } from "./demo-source.js";
 
 const root = ref(null);
 
@@ -25,8 +25,8 @@ onMounted(() => document.querySelector(".VPHome .VPHero")?.prepend(root.value));
 			v-for="theme in ['', '-light']"
 			:key="theme"
 			:class="theme ? 'hero-light' : 'hero-dark'"
-			:src="`${demoBase}/hero${theme}.mp4`"
-			:poster="`${demoBase}/hero${theme}-poster.webp`"
+			:src="`${demoSource}/hero${theme}.mp4`"
+			:poster="`${demoSource}/hero${theme}-poster.webp`"
 			width="1200"
 			height="604"
 			autoplay
@@ -34,6 +34,7 @@ onMounted(() => document.querySelector(".VPHome .VPHero")?.prepend(root.value));
 			loop
 			playsinline
 			aria-hidden="true"
+			@error="demoUnreachable"
 		/>
 	</div>
 </template>
