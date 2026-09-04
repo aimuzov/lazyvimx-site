@@ -81,6 +81,19 @@ const nameMap = {
 	README: "getting-started",
 };
 
+// Размер записи задан в её тейпе; тейпы приезжают вместе с доками.
+// Второй набор экстр снят выше — отсюда два разных размера.
+function tapeSize(name) {
+	const tape = join(src, "docs/demo/tapes", `${name}.tape`);
+	if (!existsSync(tape)) return { width: 1200, height: 604 };
+
+	const text = readFileSync(tape, "utf8");
+	return {
+		width: Number(text.match(/^Set Width (\d+)$/m)?.[1] ?? 1200),
+		height: Number(text.match(/^Set Height (\d+)$/m)?.[1] ?? 604),
+	};
+}
+
 function transform(text) {
 	// Блок «Русская версия/English version» — на сайте есть переключатель.
 	text = text.replace(/> \[!TIP\]\n> \*\*🇷🇺[^\n]*\n\n/g, "");
@@ -112,16 +125,15 @@ function transform(text) {
 	text = text.replace(/\]\(#\p{Extended_Pictographic}️?-/gu, "](#");
 	text = text.replace(/\]\((\.\/[a-z-]+\.md)#\p{Extended_Pictographic}️?-/gu, "]($1#");
 
-	// Каждая демо-гифка существует в двух палитрах; какая видна —
-	// решает CSS по классу темы (см. custom.css). Гифки, записанные ещё
-	// и без своей экстры, получают табы «После | До» (DemoTabs.vue).
+	// В доках гифка — она нужна GitHub. Сайту отдаём mp4 той же записи:
+	// вдвое легче и грузится только когда доскроллили (DemoPlayer.vue).
+	// Размер берём из тейпа — иначе место под запись не зарезервировать.
 	text = text.replace(
 		/!\[([^\]]*)\]\(https:\/\/raw\.githubusercontent\.com\/aimuzov\/lazyvimx\/assets\/demo\/([a-z0-9-]+)\.gif\)/g,
 		(_, alt, name) => {
-			if (withBefore.has(name)) return `<DemoTabs name="${name}" alt="${alt}" />`;
-
-			const base = `https://raw.githubusercontent.com/aimuzov/lazyvimx/assets/demo/${name}`;
-			return `<p><img class="gif-dark" loading="lazy" src="${base}.gif" alt="${alt}"><img class="gif-light" loading="lazy" src="${base}-light.gif" alt="${alt}"></p>`;
+			const { width, height } = tapeSize(name);
+			const before = withBefore.has(name) ? " before" : "";
+			return `<DemoPlayer name="${name}" alt="${alt}" :width="${width}" :height="${height}"${before} />`;
 		},
 	);
 

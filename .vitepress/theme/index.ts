@@ -5,7 +5,8 @@ import "./custom.css";
 
 import { h } from "vue";
 
-import DemoTabs from "./DemoTabs.vue";
+import DemoPlayer from "./DemoPlayer.vue";
+import HeroDemo from "./HeroDemo.vue";
 import VimNav from "./VimNav.vue";
 import VimStatusline from "./VimStatusline.vue";
 
@@ -13,10 +14,14 @@ export default {
 	extends: DefaultTheme,
 
 	// Статуслайн и хоткеи живут вне потока страницы — слотом в самый низ
-	// layout.
-	Layout: () => h(DefaultTheme.Layout, null, { "layout-bottom": () => [h(VimStatusline), h(VimNav)] }),
+	// layout. Запись под hero — слотом внутрь него самого.
+	Layout: () =>
+		h(DefaultTheme.Layout, null, {
+			"home-hero-before": () => h(HeroDemo),
+			"layout-bottom": () => [h(VimStatusline), h(VimNav)],
+		}),
 
 	enhanceApp({ app }) {
-		app.component("DemoTabs", DemoTabs);
+		app.component("DemoPlayer", DemoPlayer);
 	},
 };
