@@ -1,5 +1,6 @@
 ---
 layout: home
+description: 50 optional extras and 39 plugin overrides for LazyVim — themes, motions, git workflow, Russian keyboard layout. Every extra is enabled piece by piece.
 
 hero:
   name: lazyvimx
