@@ -1,4 +1,9 @@
 // Записи демо живут в ветке assets репозитория lazyvimx, а раздаёт их
 // CDN: с самого GitHub они приходили с кешем в пять минут. Адрес нужен
 // и конфигу (предзагрузка постера), и компонентам — поэтому отдельно.
-export const demoBase = "https://cdn.jsdelivr.net/gh/aimuzov/lazyvimx@assets/demo";
+//
+// Ссылка закреплена на коммит, а не на ветку: по ветке jsDelivr держит
+// файл неделю, по коммиту — год и с immutable. Цена — эту строку нужно
+// править всякий раз, когда демо переснимут (docs/demo/record.sh в
+// lazyvimx, потом коммит в ветку assets).
+export const demoBase = "https://cdn.jsdelivr.net/gh/aimuzov/lazyvimx@5de843c51aec6b5d7998a6e45ce119b09f23e88f/demo";
