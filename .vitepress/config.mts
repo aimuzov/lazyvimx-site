@@ -82,6 +82,7 @@ export default defineConfig({
 				rel: "preload",
 				as: "image",
 				type: "image/webp",
+				fetchpriority: "high",
 				href: `${demoBase}/hero${theme}-poster.webp`,
 				media: theme ? "(prefers-color-scheme: light)" : "(prefers-color-scheme: dark)",
 			},

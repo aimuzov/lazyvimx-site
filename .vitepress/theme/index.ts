@@ -7,6 +7,7 @@ import { h } from "vue";
 
 import DemoPlayer from "./DemoPlayer.vue";
 import HeroDemo from "./HeroDemo.vue";
+import HomeLandmark from "./HomeLandmark.vue";
 import VimNav from "./VimNav.vue";
 import VimStatusline from "./VimStatusline.vue";
 
@@ -17,7 +18,7 @@ export default {
 	// layout. Запись под hero — слотом внутрь него самого.
 	Layout: () =>
 		h(DefaultTheme.Layout, null, {
-			"home-hero-before": () => h(HeroDemo),
+			"home-hero-before": () => [h(HeroDemo), h(HomeLandmark)],
 			"layout-bottom": () => [h(VimStatusline), h(VimNav)],
 		}),
 

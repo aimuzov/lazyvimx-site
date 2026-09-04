@@ -25,13 +25,38 @@ const credit = computed(() => (lang.value === "ru" ? "сделано с ❤️ a
 // Эхо набранного, как showcmd: пробел лидера иначе выглядит пустотой.
 const showcmd = computed(() => (vim.count + vim.pending).replace(/ /g, "␣"));
 
-function onScroll() {
-	const max = document.documentElement.scrollHeight - window.innerHeight;
+// Высоту документа держим в переменной: читать её на каждом событии
+// скролла — это принудительная компоновка посреди прокрутки, браузер
+// пересчитывает раскладку заново. Меняется она только от содержимого,
+// за этим и следит наблюдатель.
+let max = 0;
+let frame = 0;
+let observer;
+
+function measure() {
+	max = document.documentElement.scrollHeight - window.innerHeight;
+}
+
+function update() {
 	if (max <= 0) return (percent.value = "All");
 	const y = window.scrollY;
 	if (y <= 0) return (percent.value = "Top");
 	if (y >= max - 2) return (percent.value = "Bot");
 	percent.value = Math.round((y / max) * 100) + "%";
+}
+
+// Событий скролла приходит больше, чем кадров: считаем раз в кадр.
+function onScroll() {
+	if (frame) return;
+	frame = requestAnimationFrame(() => {
+		frame = 0;
+		update();
+	});
+}
+
+function onResize() {
+	measure();
+	update();
 }
 
 function onSelection() {
@@ -40,13 +65,20 @@ function onSelection() {
 
 onMounted(() => {
 	window.addEventListener("scroll", onScroll, { passive: true });
+	window.addEventListener("resize", onResize, { passive: true });
 	document.addEventListener("selectionchange", onSelection);
-	onScroll();
+
+	observer = new ResizeObserver(onResize);
+	observer.observe(document.documentElement);
+	onResize();
 });
 
 onUnmounted(() => {
 	window.removeEventListener("scroll", onScroll);
+	window.removeEventListener("resize", onResize);
 	document.removeEventListener("selectionchange", onSelection);
+	observer?.disconnect();
+	cancelAnimationFrame(frame);
 });
 </script>
 
