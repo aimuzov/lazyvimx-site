@@ -156,11 +156,17 @@ function transform(text) {
 const src = findSource();
 mkdirSync(join(root, "ru"), { recursive: true });
 
+// Заголовок страницы VitePress берёт из первого h1. В README его нет —
+// там шапку держат баннер и бейджи, а они на сайт не едут.
+function withTitle(text) {
+	return text.startsWith("# ") ? text : `# lazyvimx\n\n${text}`;
+}
+
 for (const [source, en, ruPage] of pages) {
 	const enText = readFileSync(join(src, `${source}.md`), "utf8");
 	const ruText = readFileSync(join(src, `${source}.ru.md`), "utf8");
 
-	writeFileSync(join(root, en), transform(enText));
-	writeFileSync(join(root, ruPage), transform(ruText));
+	writeFileSync(join(root, en), withTitle(transform(enText)));
+	writeFileSync(join(root, ruPage), withTitle(transform(ruText)));
 	console.log(`synced: ${en}, ${ruPage}`);
 }
